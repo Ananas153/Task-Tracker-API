@@ -11,4 +11,5 @@ public record TaskDto(
         String description,
         Status status,
         LocalDateTime createdAt
-) {}
+) {
+}
