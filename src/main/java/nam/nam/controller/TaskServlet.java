@@ -1,6 +1,5 @@
 package nam.nam.controller;
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,6 +10,7 @@ import nam.nam.dto.TaskDto;
 import nam.nam.mapper.TaskMapper;
 import nam.nam.model.Task;
 import nam.nam.service.TaskService;
+import tools.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -18,9 +18,10 @@ import java.util.Optional;
 @WebServlet("/tasks")
 public class TaskServlet extends HttpServlet {
     private TaskService taskService;
+    private ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
-    public void init() throws ServletException{
+    public void init() {
         this.taskService = new TaskService(new TaskDAO(new DatabaseConnection()));
     }
 
@@ -43,7 +44,6 @@ public class TaskServlet extends HttpServlet {
 
         TaskDto dto = TaskMapper.toDto(opt.get());
         resp.setContentType("application/json");
-
+        objectMapper.writeValue(resp.getWriter(), dto);
     }
-
 }

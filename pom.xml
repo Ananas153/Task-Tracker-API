@@ -7,6 +7,9 @@
     <groupId>nam.nam</groupId>
     <artifactId>Task-Tracker-API</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>war</packaging> <!--When Maven reaches the package phase, it builds a .war
+                instead of a .jar. The Java Application Server (Tomcat) expect the app to be
+                packaged as a WAR file (Web Application Archive). -->
 
     <properties>
         <maven.compiler.source>22</maven.compiler.source>
@@ -25,14 +28,26 @@
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
             <version>6.0.0</version>
-            <scope>provided</scope>
+            <scope>provided</scope> <!-- Telling Maven to not put this dependency inside
+                        WAR(compress file), since it's PROVIDED by the server (Tomcat) -->
         </dependency>
 
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
+            <groupId>tools.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.17.0</version>
+            <version>3.0.1</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.4.0</version>
+            </plugin>
+        </plugins>
+    </build>
+
 
 </project>
