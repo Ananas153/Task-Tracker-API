@@ -1,4 +1,4 @@
-package nam.nam.controller;
+package nam.nam.controller.taskServlet;
 
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;

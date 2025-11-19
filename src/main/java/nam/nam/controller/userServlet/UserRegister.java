@@ -1,4 +1,4 @@
-package nam.nam.controller;
+package nam.nam.controller.userServlet;
 
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -13,8 +13,8 @@ import tools.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 
-@WebServlet("/users")
-public class UserServlet extends HttpServlet {
+@WebServlet("/users/register")
+public class UserRegister extends HttpServlet {
     private UserService userService;
     private ObjectMapper objectMapper = new ObjectMapper();
 
@@ -34,6 +34,7 @@ public class UserServlet extends HttpServlet {
             response.getWriter().write("{\"token\":\"" + token + "\"}");
 
         } catch (EmailAlreadyExistsException e) {
+            System.err.println(e);
             response.setStatus(HttpServletResponse.SC_CONFLICT);
             response.getWriter().write("{\"error\":\"Email already exists\"}");
         }
