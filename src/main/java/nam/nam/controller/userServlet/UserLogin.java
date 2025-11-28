@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import nam.nam.dao.DatabaseConnection;
 import nam.nam.dao.UserDAO;
-import nam.nam.dto.UserLoginDto;
+import nam.nam.dto.userDTO.UserLoginDto;
 import nam.nam.exception.user.InvalidCredentialException;
 import nam.nam.exception.user.UserExistException;
 import nam.nam.service.UserService;
@@ -29,7 +29,6 @@ public class UserLogin extends HttpServlet {
         UserLoginDto userLoginDto = objectMapper.readValue(request.getReader(), UserLoginDto.class);
         try {
             String token = userService.userLogin(userLoginDto);
-
             response.setStatus(HttpServletResponse.SC_OK);
             response.setContentType("application/json");
             response.getWriter().write("{\"token\":\"" + token + "\"}");

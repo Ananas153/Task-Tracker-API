@@ -19,8 +19,18 @@ public class Task {
         this.updatedAt = updateAt;
     }
 
+    public Task(int idUser, String description, Status status) {
+        this.idUser = idUser;
+        this.description = description;
+        this.status = status;
+    }
+
     public int getId() {
         return id;
+    }
+
+    public int getIdUser() {
+        return idUser;
     }
 
     public String getDescription() {

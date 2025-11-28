@@ -2,8 +2,8 @@ package nam.nam.service;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import nam.nam.dao.UserDAO;
-import nam.nam.dto.UserCreateDto;
-import nam.nam.dto.UserLoginDto;
+import nam.nam.dto.userDTO.UserCreateDto;
+import nam.nam.dto.userDTO.UserLoginDto;
 import nam.nam.exception.user.EmailAlreadyExistsException;
 import nam.nam.exception.user.InvalidCredentialException;
 import nam.nam.exception.user.UserExistException;
@@ -26,9 +26,9 @@ public class UserService {
         }
         String hashedPass = BCrypt.withDefaults().hashToString(12, userCreateDto.password().toCharArray());
         User user = new User(userCreateDto.name(), userCreateDto.email(), hashedPass);
-        userDAO.createUser(user);
+        int userId = userDAO.createUser(user);
 
-        return JwtUtil.JwtUtil(userCreateDto.email());
+        return JwtUtil.JwtUtil(userCreateDto.email(),userId);
     }
 
     public String userLogin(UserLoginDto userLoginDto) {
@@ -40,6 +40,6 @@ public class UserService {
         if (!result.verified) {
             throw new InvalidCredentialException();
         }
-        return JwtUtil.JwtUtil(userLoginDto.email());
+        return JwtUtil.JwtUtil(userLoginDto.email(),optUser.get().getId());
     }
 }

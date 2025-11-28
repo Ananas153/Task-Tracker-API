@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import nam.nam.dao.DatabaseConnection;
 import nam.nam.dao.TaskDAO;
-import nam.nam.dto.TaskDto;
+import nam.nam.dto.taskDTO.TaskGetByIdDto;
 import nam.nam.mapper.TaskMapper;
 import nam.nam.model.Task;
 import nam.nam.service.TaskService;
@@ -42,7 +42,7 @@ public class TaskServlet extends HttpServlet {
             return;
         }
 
-        TaskDto dto = TaskMapper.toDto(opt.get());
+        TaskGetByIdDto dto = TaskMapper.toDto(opt.get());
         resp.setContentType("application/json");
         objectMapper.writeValue(resp.getWriter(), dto);
     }

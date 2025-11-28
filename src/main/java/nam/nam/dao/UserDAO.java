@@ -1,11 +1,9 @@
 package nam.nam.dao;
 
+import nam.nam.exception.user.DatabaseException;
 import nam.nam.model.User;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Optional;
 
 public class UserDAO {
@@ -18,17 +16,21 @@ public class UserDAO {
         this.databaseConnection = databaseConnection;
     }
 
-    public boolean createUser(User user) {
+    public int createUser(User user) {
         try (Connection connection = databaseConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(CREATE_USER)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(CREATE_USER, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, user.getName());
             preparedStatement.setString(2, user.getEmail());
             preparedStatement.setString(3, user.getPassword());
-            int rowInserted = preparedStatement.executeUpdate();
-            return rowInserted > 0;
+            preparedStatement.executeUpdate();
+            ResultSet resultset = preparedStatement.getGeneratedKeys();
+            if(resultset.next()){
+                return resultset.getInt(1);
+            }else{
+                throw new RuntimeException("User created but no ID returned.");
+            }
         } catch (SQLException e) {
-            System.err.println("Error: CREATE new user :" + e.getMessage());
-            return false;
+            throw new DatabaseException("Error creating user", e);
         }
     }
 

@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import nam.nam.dao.DatabaseConnection;
 import nam.nam.dao.UserDAO;
-import nam.nam.dto.UserCreateDto;
+import nam.nam.dto.userDTO.UserCreateDto;
 import nam.nam.exception.user.EmailAlreadyExistsException;
 import nam.nam.service.UserService;
 import tools.jackson.databind.ObjectMapper;
