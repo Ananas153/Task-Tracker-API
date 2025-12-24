@@ -14,6 +14,9 @@ import tools.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.Optional;
 
+//FIX the URL, doesn't respect the REST API architect -> Violating the Resource-based
+//URL points to a thing(a task, a user) that we can do operation on to(Create, Delete, etc)
+//not an action, so NO weird verb in side the URL
 @WebServlet("/tasks/create")
 public class TaskCreate extends HttpServlet {
     private TaskService taskService;

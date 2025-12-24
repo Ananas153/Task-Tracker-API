@@ -11,6 +11,7 @@ public class TaskDAO {
     private DatabaseConnection databaseConnection;
     private final String GET_TASK_BY_ID = "SELECT * FROM tasks WHERE id = ?";
     private final String CREATE_TASK = "INSERT INTO tasks (idUser, description, status) VALUES (?,?,?)";
+    private final String UPDATE_TASK = "UPDATE tasks SET description = ?, status = ? WHERE id = ? AND idUser = ?";
 
     public TaskDAO(DatabaseConnection databaseConnection) {
         this.databaseConnection = databaseConnection;
@@ -51,8 +52,26 @@ public class TaskDAO {
             }
             return Optional.empty();
         } catch (SQLException e) {
-            System.err.println("Error: CREATE task : " + e.getMessage());
+            System.err.println("Error: CREATE new task : " + e.getMessage());
             return Optional.empty();
+        }
+    }
+
+    // Il faut faire en sort que chaque nouvel task créé par un utilisateur doit avoir un nouvel
+    // ID dans les tasks appartiennent à cet utilisateur. Pas incrémenter dans le tas de tasks
+    // existants. 
+    public boolean updateTask(Task task){
+        try(Connection connection = databaseConnection.getConnection();
+            PreparedStatement statement = connection.prepareStatement(UPDATE_TASK)){
+            statement.setString(1,task.getDescription());
+            statement.setString(2, task.getStatus().toString());
+            statement.setInt(3,task.getId());
+            statement.setInt(4, task.getIdUser());
+            int rowAffected = statement.executeUpdate();
+            return rowAffected > 0;
+        }catch(SQLException e){
+            System.err.println("Error: UPDATE existed task : " + e.getMessage());
+            return false;
         }
     }
 }

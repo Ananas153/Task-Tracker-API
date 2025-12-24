@@ -8,7 +8,7 @@ import nam.nam.exception.user.EmailAlreadyExistsException;
 import nam.nam.exception.user.InvalidCredentialException;
 import nam.nam.exception.user.UserExistException;
 import nam.nam.model.User;
-import nam.nam.util.JwtUtil;
+import nam.nam.authentication.JwtAuthentication;
 
 import java.util.Optional;
 
@@ -28,7 +28,7 @@ public class UserService {
         User user = new User(userCreateDto.name(), userCreateDto.email(), hashedPass);
         int userId = userDAO.createUser(user);
 
-        return JwtUtil.JwtUtil(userCreateDto.email(),userId);
+        return JwtAuthentication.JwtUtil(userCreateDto.email(),userId);
     }
 
     public String userLogin(UserLoginDto userLoginDto) {
@@ -40,6 +40,6 @@ public class UserService {
         if (!result.verified) {
             throw new InvalidCredentialException();
         }
-        return JwtUtil.JwtUtil(userLoginDto.email(),optUser.get().getId());
+        return JwtAuthentication.JwtUtil(userLoginDto.email(),optUser.get().getId());
     }
 }

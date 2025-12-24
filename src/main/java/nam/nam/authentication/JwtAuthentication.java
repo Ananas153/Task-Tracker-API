@@ -1,4 +1,4 @@
-package nam.nam.util;
+package nam.nam.authentication;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -7,7 +7,7 @@ import nam.nam.exception.user.InvalidTokenException;
 
 import java.util.Date;
 
-public class JwtUtil {
+public class JwtAuthentication {
     private static final String SECRET = "super-secret-key-change-me";
 
     public static String JwtUtil(String email, int userID) {

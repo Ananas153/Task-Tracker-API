@@ -15,8 +15,11 @@ import tools.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.Optional;
 
+//FIX the URL, doesn't respect the REST API architect -> Violating the Resource-based
+//URL points to a thing(a task, a user) that we can do operation on to(Create, Delete, etc)
+//not an action, so NO weird verb in side the URL
 @WebServlet("/tasks")
-public class TaskServlet extends HttpServlet {
+public class TaskList extends HttpServlet {
     private TaskService taskService;
     private ObjectMapper objectMapper = new ObjectMapper();
 
@@ -44,6 +47,7 @@ public class TaskServlet extends HttpServlet {
 
         TaskGetByIdDto dto = TaskMapper.toDto(opt.get());
         resp.setContentType("application/json");
+        resp.setStatus(HttpServletResponse.SC_OK);
         objectMapper.writeValue(resp.getWriter(), dto);
     }
 }
